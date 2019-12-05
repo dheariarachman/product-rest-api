@@ -3,13 +3,16 @@ import { urlencoded, json } from "body-parser";
 import morgan from "morgan";
 import mongoose from "mongoose";
 
-import products from "./route/products";
-import orders from "./route/orders";
+// Router
+import products from "./src/route/products";
+import orders from "./src/route/orders";
+import users from "./src/route/users";
 
 const app = express();
 
+// Misc
 app.use(morgan("dev"));
-
+app.use("/uploads", express.static("uploads"));
 app.use(urlencoded({ extended: false }));
 app.use(json());
 
@@ -18,7 +21,12 @@ mongoose.connect(
   "mongodb+srv://dhearia:" +
     process.env.MONGO_PW +
     "@tourwithme-c4ags.mongodb.net/test?retryWrites=true&w=majority",
-  { useNewUrlParser: true, useUnifiedTopology: true },
+  {
+    useNewUrlParser: true,
+    useUnifiedTopology: true,
+    useFindAndModify: false,
+    useCreateIndex: true
+  },
   (err, res) => {
     if (err) {
       console.log(err);
@@ -40,8 +48,10 @@ app.use((req, res, next) => {
   next();
 });
 
+// Route
 app.use("/products", products);
 app.use("/orders", orders);
+app.use("/users", users);
 
 // Handling Error Route 404
 app.use((req, res, next) => {

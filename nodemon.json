@@ -1,5 +1,6 @@
 {
     "env" : {
-        "MONGO_PW": "dh344r14r4chm4n"
+        "MONGO_PW": "dh344r14r4chm4n",
+        "JWT_KEY": "dh344r14r4chm4ndh344r14r4chm4n"
     }
 }
